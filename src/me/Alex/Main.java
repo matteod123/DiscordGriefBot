@@ -23,20 +23,8 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 
 public class Main extends ListenerAdapter {
 	
-	// BOTInvite: https://discord.com/oauth2/authorize?client_id=832606240583450674&scope=bot&permissions=1006633022
-
 	public ShardManager manager;
 	public static Main instance;
-	
-	public String trustcmd = "%trust";
-	//private String encodedToken = "NGY0NDRkNzk0ZTZhNDEzMjRkNmE1MTc3NGU1NDY3N2E0ZTQ0NTU3NzRlNmE2MzMwMmU1OTQ4NmQ0ZjVmNDEyZTU3MzA0YjQ4MzU2ZjVhNzU3YTQ5NDk2NzU2NTg3MTQxNzk3NzJkNGE3MzQ3Mzc0ODZhMzE2Nw==";
-	
-	private ArrayList<User> trusted = new ArrayList<User>();
-	public boolean maintance = false;
-	
-	public ArrayList<User> getTrusted() {
-		return this.trusted;
-	}
 	
 	public static void main(String[] args) throws LoginException, IllegalArgumentException {
 		new Main();
@@ -114,23 +102,6 @@ public class Main extends ListenerAdapter {
 		
 	}
 	
-	public static String unHex(String arg) {        
-
-	    String str = "";
-	    for(int i=0;i<arg.length();i+=2)
-	    {
-	        String s = arg.substring(i, (i + 2));
-	        int decimal = Integer.parseInt(s, 16);
-	        str = str + (char) decimal;
-	    }       
-	    return str;
-	}
-	
-	public static String decodeBase64(String encoded) {
-		byte[] decodedBytes = Base64.getDecoder().decode(encoded);
-		String decodedString = new String(decodedBytes);
-		return decodedString;
-	}
 	
 	private static final ScheduledExecutorService scheduledThreadPoolExecutor = Executors.newScheduledThreadPool(10);
     
