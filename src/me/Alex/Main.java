@@ -84,11 +84,10 @@ public class Main extends ListenerAdapter {
 							manager.setStatus(OnlineStatus.OFFLINE);
 							manager.shutdown();
 							System.out.println("Bot wurde heruntergefahren!");
-						} 
-					
-					
-					
-				} else {
+						} 		
+				} 
+				else 
+				{
 					System.out.println("Builder nicht definiert!");
 				}
 				
@@ -101,8 +100,7 @@ public class Main extends ListenerAdapter {
 		return t;
 		
 	}
-	
-	
+
 	private static final ScheduledExecutorService scheduledThreadPoolExecutor = Executors.newScheduledThreadPool(10);
     
     public static void doPause(int ms) {
