@@ -23,7 +23,7 @@ public class GriefBot {
 	}
 	
 	public GriefBot() {
-		DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault("OTA4NDI4NzU0ODczODc2NTMw.YY1mNA.-VuL2QNMtZjwh2scgA8NZlL_MgU");
+		DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(Utils.readTokenFile());
 		instance = this;
 		
 		builder.addEventListeners(new GriefBotListener());
