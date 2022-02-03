@@ -8,6 +8,6 @@ Sample video for the GriefBot: https://www.youtube.com/watch?v=ZLGZtxkxjxk
 
 #
 
-UPDATED V2!
+UPDATED V3!
 
-LAST UPDATE: 23.12.21
+LAST UPDATE: 03.02.2022
