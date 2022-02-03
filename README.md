@@ -4,7 +4,7 @@ A Discord bot that deletes all channels on a Discord server and replaces them wi
 
 *The bot was programmed in Java with JDA and is a Maven project.*
 
-Sample video for the GriefBot: https://www.youtube.com/watch?v=ZLGZtxkxjxk
+<img src="screenshots/config.png" alt="Config Example"></img>
 
 #
 
