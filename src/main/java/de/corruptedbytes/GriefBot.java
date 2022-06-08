@@ -1,7 +1,5 @@
 package de.corruptedbytes;
 
-import java.io.IOException;
-
 import javax.security.auth.login.LoginException;
 
 import de.corruptedbytes.utils.Config;
@@ -11,38 +9,82 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
 public class GriefBot {
-	
-	public ShardManager manager;
-	public static GriefBot instance;
-	
-	public String botToken;
-	public String griefCommand;
-	public String grieferUserID;
-	public String activityDescription;
-	public String griefMessage;
-	
-	public GriefBot() throws IOException {
-		instance = this;
-		Config.initConfig();
-		
-		DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(botToken);
-		
-		builder.addEventListeners(new GriefBotListener());
-		builder.setActivity(Activity.streaming(activityDescription, "https://www.twitch.tv/twitch"));
-		builder.setStatus(OnlineStatus.ONLINE);
-		
-		try {
-			manager = builder.build();
-		} catch (LoginException | IllegalArgumentException e) {
-			System.err.println("Bot cannot authenticate with Discord");
-		}
-		
+
+	private final static GriefBot INSTANCE = new GriefBot();
+	private ShardManager botManager;
+
+	private String discordBotToken;
+	private String griefCommand;
+	private String grieferUserID;
+	private String activityDescription;
+	private String griefMessage;
+
+	public static GriefBot getInstance() {
+		return INSTANCE;
 	}
-	
+
+	public ShardManager getBotManager() {
+		return botManager;
+	}
+
+	public String getDiscordBotToken() {
+		return discordBotToken;
+	}
+
+	public void setDiscordBotToken(String discordBotToken) {
+		this.discordBotToken = discordBotToken;
+	}
+
+	public String getGriefCommand() {
+		return griefCommand;
+	}
+
+	public void setGriefCommand(String griefCommand) {
+		this.griefCommand = griefCommand;
+	}
+
+	public String getGrieferUserID() {
+		return grieferUserID;
+	}
+
+	public void setGrieferUserID(String grieferUserID) {
+		this.grieferUserID = grieferUserID;
+	}
+
+	public String getActivityDescription() {
+		return activityDescription;
+	}
+
+	public void setActivityDescription(String activityDescription) {
+		this.activityDescription = activityDescription;
+	}
+
+	public String getGriefMessage() {
+		return griefMessage;
+	}
+
+	public void setGriefMessage(String griefMessage) {
+		this.griefMessage = griefMessage;
+	}
+
 	public static void main(String[] args) {
 		try {
-			new GriefBot();
-		} catch (IOException e) {
+			Config.initConfig();
+
+			DefaultShardManagerBuilder builder = DefaultShardManagerBuilder
+					.createDefault(getInstance().getDiscordBotToken());
+
+			builder.addEventListeners(new GriefBotListener());
+			builder.setActivity(
+					Activity.streaming(getInstance().getActivityDescription(), "https://www.twitch.tv/twitch"));
+			builder.setStatus(OnlineStatus.ONLINE);
+
+			try {
+				getInstance().botManager = builder.build();
+			} catch (LoginException | IllegalArgumentException e) {
+				System.err.println("Bot can't authenticate with Discord");
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

@@ -15,53 +15,53 @@ import de.corruptedbytes.GriefBot;
 import net.dv8tion.jda.api.entities.User;
 
 public class Utils {
-	
+
 	public static void sendInfo() {
-		int guilds = GriefBot.instance.manager.getGuilds().size();
-		
-		System.out.println(getBanner());
+		int guilds = GriefBot.getInstance().getBotManager().getGuilds().size();
+
+		System.out.println("");
+
 		if (guilds != 0) {
 			System.out.println("The Bot is currently on " + guilds + " servers");
-		}
-		else
-		{
-			String link = "https://discord.com/api/oauth2/authorize?client_id=" + new String(Base64.getDecoder().decode(GriefBot.instance.botToken.split("\\.")[0])) + "&permissions=8&scope=bot\n";
+		} else {
+			String link = "https://discord.com/api/oauth2/authorize?client_id="
+					+ new String(
+							Base64.getDecoder().decode(GriefBot.getInstance().getDiscordBotToken().split("\\.")[0]))
+					+ "&permissions=8&scope=bot\n";
+
 			try {
-				User user = GriefBot.instance.manager.getUserById(GriefBot.instance.grieferUserID);
-				user.openPrivateChannel().queue((channel) ->
-		        {
-		            channel.sendMessage("**Bot Invite Link:**\n" + link).queue();
-		        });
+				User user = GriefBot.getInstance().getBotManager()
+						.getUserById(GriefBot.getInstance().getGrieferUserID());
+				user.openPrivateChannel().queue((channel) -> {
+					channel.sendMessage("**Bot Invite Link:**\n" + link).queue();
+				});
+
 			} catch (Exception e) {
 				System.out.println(" Invite Link: " + link);
 			}
 		}
 	}
-	
+
 	public static void extractResource(String output, String file) throws IOException, URISyntaxException {
 		File f = new File(GriefBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-        OutputStream out = new FileOutputStream(output);
-        FileInputStream fileInputStream = new FileInputStream(f.getAbsoluteFile());
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-        ZipInputStream zin = new ZipInputStream(bufferedInputStream);
-        ZipEntry ze = null;
+		OutputStream out = new FileOutputStream(output);
+		FileInputStream fileInputStream = new FileInputStream(f.getAbsoluteFile());
+		BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+		ZipInputStream zin = new ZipInputStream(bufferedInputStream);
+		ZipEntry ze = null;
 
-        while((ze = zin.getNextEntry()) != null) {
-            if (ze.getName().equals(file)) {
-                byte[] buffer = new byte[9000];
+		while ((ze = zin.getNextEntry()) != null) {
+			if (ze.getName().equals(file)) {
+				byte[] buffer = new byte[9000];
 
-                int len;
-                while((len = zin.read(buffer)) != -1) {
-                    out.write(buffer, 0, len);
-                }
-                out.close();
-                break;
-            }
-        }
-        zin.close();
-    }
-	
-	private static String getBanner() {
-		return "\n =-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=\n	Discord-GriefBOT by CorruptedBytes\n =-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=\n";
+				int len;
+				while ((len = zin.read(buffer)) != -1) {
+					out.write(buffer, 0, len);
+				}
+				out.close();
+				break;
+			}
+		}
+		zin.close();
 	}
 }

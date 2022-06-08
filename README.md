@@ -8,6 +8,4 @@ A Discord bot that deletes all channels on a Discord server and replaces them wi
 
 #
 
-UPDATED V3!
-
-LAST UPDATE: 03.02.2022
+LAST UPDATE: 08.06.2022
