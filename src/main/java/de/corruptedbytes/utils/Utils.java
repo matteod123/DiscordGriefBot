@@ -1,16 +1,6 @@
 package de.corruptedbytes.utils;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URISyntaxException;
 import java.util.Base64;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
 import de.corruptedbytes.GriefBot;
 import net.dv8tion.jda.api.entities.User;
 
@@ -19,7 +9,7 @@ public class Utils {
 	public static void sendInfo() {
 		int guilds = GriefBot.getInstance().getBotManager().getGuilds().size();
 
-		System.out.println("");
+		System.out.println();
 
 		if (guilds != 0) {
 			System.out.println("The Bot is currently on " + guilds + " servers");
@@ -40,28 +30,5 @@ public class Utils {
 				System.out.println(" Invite Link: " + link);
 			}
 		}
-	}
-
-	public static void extractResource(String output, String file) throws IOException, URISyntaxException {
-		File f = new File(GriefBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-		OutputStream out = new FileOutputStream(output);
-		FileInputStream fileInputStream = new FileInputStream(f.getAbsoluteFile());
-		BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-		ZipInputStream zin = new ZipInputStream(bufferedInputStream);
-		ZipEntry ze = null;
-
-		while ((ze = zin.getNextEntry()) != null) {
-			if (ze.getName().equals(file)) {
-				byte[] buffer = new byte[9000];
-
-				int len;
-				while ((len = zin.read(buffer)) != -1) {
-					out.write(buffer, 0, len);
-				}
-				out.close();
-				break;
-			}
-		}
-		zin.close();
 	}
 }

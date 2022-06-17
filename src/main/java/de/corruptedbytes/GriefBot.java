@@ -18,6 +18,7 @@ public class GriefBot {
 	private String grieferUserID;
 	private String activityDescription;
 	private String griefMessage;
+	private String spamMessage;
 
 	public static GriefBot getInstance() {
 		return INSTANCE;
@@ -66,6 +67,14 @@ public class GriefBot {
 	public void setGriefMessage(String griefMessage) {
 		this.griefMessage = griefMessage;
 	}
+	
+	public String getSpamMessage() {
+		return spamMessage;
+	}
+	
+	public void setSpamMessage(String spamMessage) {
+		this.spamMessage = spamMessage;
+	}
 
 	public static void main(String[] args) {
 		try {
@@ -73,7 +82,7 @@ public class GriefBot {
 
 			DefaultShardManagerBuilder builder = DefaultShardManagerBuilder
 					.createDefault(getInstance().getDiscordBotToken());
-
+			
 			builder.addEventListeners(new GriefBotListener());
 			builder.setActivity(
 					Activity.streaming(getInstance().getActivityDescription(), "https://www.twitch.tv/twitch"));
@@ -83,6 +92,7 @@ public class GriefBot {
 				getInstance().botManager = builder.build();
 			} catch (LoginException | IllegalArgumentException e) {
 				System.err.println("Bot can't authenticate with Discord");
+				e.printStackTrace();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
