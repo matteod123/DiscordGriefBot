@@ -19,6 +19,7 @@ public class GriefBot {
 	private String activityDescription;
 	private String griefMessage;
 	private String spamMessage;
+	private String membersSpamMessage;
 
 	public static GriefBot getInstance() {
 		return INSTANCE;
@@ -74,6 +75,14 @@ public class GriefBot {
 	
 	public void setSpamMessage(String spamMessage) {
 		this.spamMessage = spamMessage;
+	}
+	
+	public String getMembersSpamMessage() {
+		return membersSpamMessage;
+	}
+	
+	public void setMembersSpamMessage(String membersSpamMessage) {
+		this.membersSpamMessage = membersSpamMessage;
 	}
 
 	public static void main(String[] args) {

