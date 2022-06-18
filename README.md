@@ -6,4 +6,10 @@ A Discord bot that deletes all channels on a Discord server and replaces them wi
 
 <img src="screenshots/config.png" alt="Config"></img>
 
+----
+
+## Make sure you enable the GUILD_MEMBERS Intents
+
+<img src="screenshots/intents.png" alt="Intents"></img>
+
 #
