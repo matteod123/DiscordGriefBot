@@ -5,8 +5,11 @@ import javax.security.auth.login.LoginException;
 import de.corruptedbytes.utils.Config;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class GriefBot {
 
@@ -19,7 +22,6 @@ public class GriefBot {
 	private String activityDescription;
 	private String griefMessage;
 	private String spamMessage;
-	private String membersSpamMessage;
 
 	public static GriefBot getInstance() {
 		return INSTANCE;
@@ -68,21 +70,13 @@ public class GriefBot {
 	public void setGriefMessage(String griefMessage) {
 		this.griefMessage = griefMessage;
 	}
-	
+
 	public String getSpamMessage() {
 		return spamMessage;
 	}
-	
+
 	public void setSpamMessage(String spamMessage) {
 		this.spamMessage = spamMessage;
-	}
-	
-	public String getMembersSpamMessage() {
-		return membersSpamMessage;
-	}
-	
-	public void setMembersSpamMessage(String membersSpamMessage) {
-		this.membersSpamMessage = membersSpamMessage;
 	}
 
 	public static void main(String[] args) {
@@ -90,8 +84,9 @@ public class GriefBot {
 			Config.initConfig();
 
 			DefaultShardManagerBuilder builder = DefaultShardManagerBuilder
-					.createDefault(getInstance().getDiscordBotToken());
-			
+					.createDefault(getInstance().getDiscordBotToken()).setMemberCachePolicy(MemberCachePolicy.ALL)
+					.setChunkingFilter(ChunkingFilter.ALL).enableIntents(GatewayIntent.GUILD_MEMBERS);
+
 			builder.addEventListeners(new GriefBotListener());
 			builder.setActivity(
 					Activity.streaming(getInstance().getActivityDescription(), "https://www.twitch.tv/twitch"));
