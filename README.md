@@ -4,6 +4,8 @@ A Discord bot that deletes all channels on a Discord server and replaces them wi
 
 *The bot was programmed in Java with JDA and is a Maven project.*
 
+Video: https://www.youtube.com/watch?v=X98numBTCTU
+
 ----
 
 ## Make sure you enable the GUILD_MEMBERS Intents
