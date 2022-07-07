@@ -21,7 +21,7 @@ public class GriefBot {
 	private WebServerSocket webSocketServerListener;
 	ShardManager botManager;
 
-	private final String VERSION = "v5.1.0";
+	private final String VERSION = "v5.1.3";
 	
 	private String discordBotToken;
 	private String griefCommand;

