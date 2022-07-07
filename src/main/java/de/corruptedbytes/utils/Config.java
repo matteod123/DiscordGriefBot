@@ -59,9 +59,9 @@ public class Config {
 			
 		}
 		
-		BufferedWriter writer = new BufferedWriter(new FileWriter(WEB_DIRECTORY + File.separator + "public/websocketserver.dgb", false));
-		writer.write(GriefBot.getInstance().getWebSocketServer().getAddress().getHostAddress() + ":" + GriefBot.getInstance().getWebSocketServer().getPort());
-		writer.close();
+//		BufferedWriter writer = new BufferedWriter(new FileWriter(WEB_DIRECTORY + File.separator + "public/websocketserver.dgb", false));
+//		writer.write(GriefBot.getInstance().getWebSocketServer().getAddress().getHostAddress() + ":" + GriefBot.getInstance().getWebSocketServer().getPort());
+//		writer.close();
 	}
 	
 	private static void createServerConfig() throws IOException {

@@ -2,16 +2,20 @@ package de.corruptedbytes;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 import javax.security.auth.login.LoginException;
 
+import de.corruptedbytes.logger.GriefBotLogger;
+import de.corruptedbytes.logger.GriefBotLoggerLevel;
 import de.corruptedbytes.utils.Config;
 import de.corruptedbytes.utils.Registry;
+import de.corruptedbytes.utils.Shelv;
 import de.corruptedbytes.webserver.WebServer;
 import de.corruptedbytes.webserver.WebServerIndex;
 import de.corruptedbytes.webserver.WebServerSocket;
 import de.corruptedbytes.webserver.webserverindexes.FileIndexer;
-import de.corruptedbytes.webserver.webserverindexes.sites.Chat;
 import de.corruptedbytes.webserver.webserverindexes.sites.Main;
 import de.corruptedbytes.webserver.webserverindexes.sites.Panel;
 import de.corruptedbytes.webserver.webserverindexes.sites.Settings;
@@ -26,6 +30,7 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 public class Bootstrap {
 
 	public static void main(String[] args) {
+		System.out.println("\r\n" + new String(Base64.getDecoder().decode(Shelv.ASCII_BANNER), StandardCharsets.UTF_8));
 		System.out.println("\r\n=-=-=-=-=-= Discord Grief-Bot by CorruptedBytes [" + GriefBot.getInstance().getVersion() + "] =-=-=-=-=-=\r\n");
 		
 		try {
@@ -36,7 +41,7 @@ public class Bootstrap {
 				initDiscordBot();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			GriefBotLogger.log("[Bootstrap] " + e.getMessage(), GriefBotLoggerLevel.ERROR);
 		}
 	}
 
@@ -54,8 +59,7 @@ public class Bootstrap {
 		try {
 			GriefBot.getInstance().botManager = builder.build();
 		} catch (LoginException | IllegalArgumentException e) {
-			System.err.println("Bot can't authenticate with Discord");
-			e.printStackTrace();
+			GriefBotLogger.log("[Bootstrap] " + e.getMessage(), GriefBotLoggerLevel.ERROR);
 		}
 	}
 
@@ -67,7 +71,6 @@ public class Bootstrap {
 		webServerIndexRegistry.register(new Setup());
 		webServerIndexRegistry.register(new Panel());
 		webServerIndexRegistry.register(new Settings());
-		webServerIndexRegistry.register(new Chat());
 		
 		GriefBot.getInstance().setWebSocketServerListener(new WebServerSocket(GriefBot.getInstance().getWebSocketServer()));
 		GriefBot.getInstance().getWebSocketServerListener().start();

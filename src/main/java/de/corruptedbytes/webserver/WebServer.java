@@ -2,7 +2,8 @@ package de.corruptedbytes.webserver;
 
 import com.sun.net.httpserver.HttpServer;
 
-import de.corruptedbytes.GriefBotLogger;
+import de.corruptedbytes.logger.GriefBotLogger;
+import de.corruptedbytes.logger.GriefBotLoggerLevel;
 import de.corruptedbytes.utils.ConnectionUtils;
 import de.corruptedbytes.utils.Registry;
 
@@ -31,7 +32,7 @@ public class WebServer {
 			}
 		});
 		this.httpServer.start();
-		GriefBotLogger.log("[Web Server] Running on http://" + ConnectionUtils.lookupLocalAddress() + ":" + host.getPort());
+		GriefBotLogger.log("[Web Server] Running on http://" + ConnectionUtils.lookupLocalAddress() + ":" + host.getPort(), GriefBotLoggerLevel.INFO);
 	}
 
 	public final HttpServer getHttpServer() {

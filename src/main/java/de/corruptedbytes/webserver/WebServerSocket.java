@@ -7,7 +7,8 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import de.corruptedbytes.GriefBot;
-import de.corruptedbytes.GriefBotLogger;
+import de.corruptedbytes.logger.GriefBotLogger;
+import de.corruptedbytes.logger.GriefBotLoggerLevel;
 
 public class WebServerSocket extends WebSocketServer {
 
@@ -40,7 +41,7 @@ public class WebServerSocket extends WebSocketServer {
 
 	@Override
 	public void onStart() {
-		GriefBotLogger.log("[WebSocket Server] Running on port " + address.getPort());
+		GriefBotLogger.log("[WebSocket Server] Running on port " + address.getPort(), GriefBotLoggerLevel.INFO);
 	}
 
 }

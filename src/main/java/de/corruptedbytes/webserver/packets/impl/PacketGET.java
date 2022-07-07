@@ -45,7 +45,7 @@ public class PacketGET extends Packet {
 					item.put("owner", guild.get(i).getOwner().getUser().getName());
 					
 					jsonArray.put(item);
-					jsonObject.put(i + "", jsonArray);
+					jsonObject.put(String.valueOf(i), jsonArray);
 				}
 				webSocket.send("GUILDS|" + Base64.getEncoder().encodeToString(jsonObject.toString().getBytes(StandardCharsets.UTF_8)));
 			}

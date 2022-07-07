@@ -6,7 +6,8 @@ import java.io.FileWriter;
 import org.java_websocket.WebSocket;
 
 import de.corruptedbytes.GriefBot;
-import de.corruptedbytes.GriefBotLogger;
+import de.corruptedbytes.logger.GriefBotLogger;
+import de.corruptedbytes.logger.GriefBotLoggerLevel;
 import de.corruptedbytes.Bootstrap;
 import de.corruptedbytes.utils.Config;
 import de.corruptedbytes.webserver.packets.Packet;
@@ -27,7 +28,7 @@ public class PacketSetup extends Packet {
 	    if (GriefBot.getInstance().getBotManager() == null) 
 	    	Bootstrap.initDiscordBot();
 	    
-	    GriefBotLogger.log("[" + getPacket() + "] Settings applied");
+	    GriefBotLogger.log("[" + getPacket() + "] Settings applied", GriefBotLoggerLevel.INFO);
 	}
 
 }

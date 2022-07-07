@@ -11,7 +11,7 @@ public class WebServerUtil {
 	public static void sendFile(HttpExchange exchange, int statusCode, File file) throws IOException {
 		sendResponse(exchange, statusCode, Files.readAllBytes(file.toPath()));
 	}
-
+	
 	public static void sendResponse(HttpExchange exchange, int statusCode, byte[] bytes) throws IOException {
 		exchange.sendResponseHeaders(statusCode, 0L);
 		OutputStream responseBody = exchange.getResponseBody();
