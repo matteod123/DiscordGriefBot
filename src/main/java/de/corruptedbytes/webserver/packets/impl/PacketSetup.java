@@ -24,6 +24,7 @@ public class PacketSetup extends Packet {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(Config.CONFIG_FILE, false));
 	    writer.write(message);
 	    writer.close();
+	    Config.initConfig();
 	    
 	    if (GriefBot.getInstance().getBotManager() == null) 
 	    	Bootstrap.initDiscordBot();
