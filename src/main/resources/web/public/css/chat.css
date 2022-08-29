@@ -1,0 +1,6 @@
+.discord-area {
+    display: flex;
+    justify-content: center;
+    font-size: 10px;
+    color: white;
+}
