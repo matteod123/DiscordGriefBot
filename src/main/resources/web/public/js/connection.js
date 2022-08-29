@@ -1,4 +1,4 @@
-const read = fetch("websocketserver.dgb", { method: 'GET' }).then(response => response.text("Result"));
+const read = fetch("/websocket", { method: 'GET' }).then(response => response.text("Result"));
 init();
 
 function init() {

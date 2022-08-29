@@ -7,19 +7,19 @@ import java.util.Base64;
 
 import javax.security.auth.login.LoginException;
 
+import org.json.JSONException;
+
 import de.corruptedbytes.logger.GriefBotLogger;
 import de.corruptedbytes.logger.GriefBotLoggerLevel;
+import de.corruptedbytes.updater.AutoUpdater;
 import de.corruptedbytes.utils.Config;
 import de.corruptedbytes.utils.Registry;
-import de.corruptedbytes.utils.Shelv;
+import de.corruptedbytes.utils.Constants;
 import de.corruptedbytes.webserver.WebServer;
 import de.corruptedbytes.webserver.WebServerIndex;
 import de.corruptedbytes.webserver.WebServerSocket;
 import de.corruptedbytes.webserver.webserverindexes.FileIndexer;
-import de.corruptedbytes.webserver.webserverindexes.sites.Main;
-import de.corruptedbytes.webserver.webserverindexes.sites.Panel;
-import de.corruptedbytes.webserver.webserverindexes.sites.Settings;
-import de.corruptedbytes.webserver.webserverindexes.sites.Setup;
+import de.corruptedbytes.webserver.webserverindexes.sites.*;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -30,8 +30,14 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 public class Bootstrap {
 
 	public static void main(String[] args) {
-		System.out.println("\r\n" + new String(Base64.getDecoder().decode(Shelv.ASCII_BANNER), StandardCharsets.UTF_8));
+		System.out.println("\r\n" + new String(Base64.getDecoder().decode(Constants.ASCII_BANNER), StandardCharsets.UTF_8));
 		System.out.println("\r\n=-=-=-=-=-= Discord Grief-Bot by CorruptedBytes [" + GriefBot.getInstance().getVersion() + "] =-=-=-=-=-=\r\n");
+		
+		try {
+			AutoUpdater.update();
+		} catch (JSONException | IOException e) {
+			GriefBotLogger.log("[Updater] " + e.getMessage(), GriefBotLoggerLevel.ERROR);
+		}
 		
 		try {
 			Config.initServerConfig();
@@ -39,12 +45,12 @@ public class Bootstrap {
 			
 			if (Config.CONFIG_FILE.exists())
 				initDiscordBot();
-			
 		} catch (Exception e) {
+			e.printStackTrace();
 			GriefBotLogger.log("[Bootstrap] " + e.getMessage(), GriefBotLoggerLevel.ERROR);
 		}
 	}
-
+	
 	public static void initDiscordBot() throws IOException {
 		Config.initConfig();
 		
@@ -62,15 +68,19 @@ public class Bootstrap {
 			GriefBotLogger.log("[Bootstrap] " + e.getMessage(), GriefBotLoggerLevel.ERROR);
 		}
 	}
-
+	
 	public static void initWebServer() throws IOException {
 		Registry<WebServerIndex> webServerIndexRegistry = new Registry<WebServerIndex>();
 		
 		webServerIndexRegistry.register(new FileIndexer());
+		
 		webServerIndexRegistry.register(new Main());
+		webServerIndexRegistry.register(new Login());
+		webServerIndexRegistry.register(new WebSocket());
 		webServerIndexRegistry.register(new Setup());
 		webServerIndexRegistry.register(new Panel());
 		webServerIndexRegistry.register(new Settings());
+		webServerIndexRegistry.register(new Chat());
 		
 		GriefBot.getInstance().setWebSocketServerListener(new WebServerSocket(GriefBot.getInstance().getWebSocketServer()));
 		GriefBot.getInstance().getWebSocketServerListener().start();

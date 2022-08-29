@@ -5,7 +5,6 @@ window.onload = function () {
         let userID = document.getElementById("userID").value;
         let activityDescription = document.getElementById("activityDescription").value;
         let disguiseCommandPrefix = document.getElementById("disguiseCommandPrefix").value;
-        let griefCommand = document.getElementById("griefCommand").value;
         let griefMessage = document.getElementById("griefMessage").value;
         let spamMessage = document.getElementById("spamMessage").value;
         let griefPicture = document.getElementById("griefPicture").value;
@@ -13,7 +12,6 @@ window.onload = function () {
         if (botToken != "" && userID != "") {
             activityDescription = (activityDescription == "") ? document.getElementById("activityDescription").placeholder : activityDescription;
             disguiseCommandPrefix = (disguiseCommandPrefix == "") ? document.getElementById("disguiseCommandPrefix").placeholder : disguiseCommandPrefix;
-            griefCommand = (griefCommand == "") ? document.getElementById("griefCommand").placeholder : griefCommand;
             griefMessage = (griefMessage == "") ? document.getElementById("griefMessage").placeholder : griefMessage;
             spamMessage = (spamMessage == "") ? document.getElementById("spamMessage").placeholder : spamMessage;
             griefPicture = (griefPicture == "") ? document.getElementById("griefPicture").placeholder : griefPicture;
@@ -38,7 +36,6 @@ function initValues(message) {
     document.getElementById("userID").value = json.userID;
     document.getElementById("activityDescription").value = json.activityDescription;
     document.getElementById("disguiseCommandPrefix").value = json.disguiseCommandPrefix;
-    document.getElementById("griefCommand").value = json.griefCommand;
     document.getElementById("griefMessage").value = json.griefMessage;
     document.getElementById("spamMessage").value = json.spamMessage;
     document.getElementById("griefPicture").value = json.griefPicture;

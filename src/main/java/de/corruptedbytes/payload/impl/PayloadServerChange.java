@@ -38,6 +38,7 @@ public class PayloadServerChange implements Runnable {
 		}
 	}
 	
+	
 	private InputStream getImageBlob(BufferedImage bufferedImage) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ImageIO.write(bufferedImage, "png", baos);

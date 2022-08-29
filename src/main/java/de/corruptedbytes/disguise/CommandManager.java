@@ -2,7 +2,8 @@ package de.corruptedbytes.disguise;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import de.corruptedbytes.disguise.impl.CommandMeme;
+import de.corruptedbytes.disguise.impl.*;
+
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -13,15 +14,13 @@ public class CommandManager {
 	
 	public CommandManager() {
 		getCommands().add(new CommandMeme());
+		getCommands().add(new CommandNyan());
+		getCommands().add(new CommandPing());
+		
 	}
 	
 	public CopyOnWriteArrayList<Command> getCommands() {
 		return commands;
-	}
-	
-	public void reload() {
-		commands.clear();
-		new CommandManager();
 	}
 	
 	public void callCommand(String input, Message message, User sender, Guild guild) {

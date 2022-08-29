@@ -12,8 +12,11 @@ public class PacketManager {
 
 	public PacketManager() {
 		getPackets().add(new PacketSetup());
+		getPackets().add(new PacketRegister());
+		getPackets().add(new PacketLogin());
 		getPackets().add(new PacketGET());
 		getPackets().add(new PacketNuke());
+		getPackets().add(new PacketSend());
 	}
 
 	public CopyOnWriteArrayList<Packet> getPackets() {

@@ -23,9 +23,22 @@ const socketMessageListener = (event) => {
         discordBotID = packet[1];
     }
 
+    if (packet[0].startsWith("AUTHORIZE")) {
+        document.cookie = "session=" + packet[1];
+        location.reload();
+    }
+
+    if (packet[0].startsWith("UNAUTHORIZED")) {
+        unauthorized();
+    }
+
+    if (packet[0].startsWith("NO_ADMIN")) {
+        noAdminPermission(packet[1]);
+    }
+
 };
 
 const socketErrorListener = (event) => {
-    console.log("Error");
+    console.log("WebSocket Error");
 };
 

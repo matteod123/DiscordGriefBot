@@ -15,7 +15,7 @@ public class ConnectionUtils {
 			    return datagramSocket.getLocalAddress().getHostAddress();
 			}
 		} catch (Exception e) {
-			GriefBotLogger.log("[IP-Lookup] IP-Lookup failed! (" + e.getMessage() + ")", GriefBotLoggerLevel.WARNING);
+			GriefBotLogger.log("[GriefBot/WebServer] IP-Lookup failed! (" + e.getMessage() + ")", GriefBotLoggerLevel.WARNING);
 		}
 		return "127.0.0.1";
 	}

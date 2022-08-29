@@ -15,22 +15,22 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 public class GriefBot {
 
 	private final static GriefBot INSTANCE = new GriefBot();
-	private final static CommandManager COMMAND_MANAGER = new CommandManager();
-	private final static PacketManager PACKET_MANAGER = new PacketManager();
-	private final static ArrayList<WebSocket> CLIENTS = new ArrayList<>();
+	private final CommandManager commandManager = new CommandManager();
+	private final PacketManager packetManager = new PacketManager();
+	private final ArrayList<WebSocket> clients = new ArrayList<>();
 	private WebServerSocket webSocketServerListener;
 	ShardManager botManager;
 
-	private final String VERSION = "v5.1.4";
+	private final String version = "v5.2.0";
 	
 	private String discordBotToken;
-	private String griefCommand;
 	private String grieferUserID;
 	private String activityDescription;
 	private String griefMessage;
 	private String spamMessage;
 	private String disguiseCommandPrefix;
 	private String griefPicture;
+	private String seed;
 	
 	private int webServerPort = 85;
 	private InetSocketAddress webServerSocket;
@@ -40,15 +40,15 @@ public class GriefBot {
 	}
 
 	public CommandManager getCommandManager() {
-		return COMMAND_MANAGER;
+		return commandManager;
 	}
 	
 	public PacketManager getPacketManager() {
-		return PACKET_MANAGER;
+		return packetManager;
 	}
 	
 	public ArrayList<WebSocket> getClients() {
-		return CLIENTS;
+		return clients;
 	}
 
 	public ShardManager getBotManager() {
@@ -61,14 +61,6 @@ public class GriefBot {
 
 	public void setDiscordBotToken(String discordBotToken) {
 		this.discordBotToken = discordBotToken;
-	}
-
-	public String getGriefCommand() {
-		return griefCommand;
-	}
-
-	public void setGriefCommand(String griefCommand) {
-		this.griefCommand = griefCommand;
 	}
 
 	public String getGrieferUserID() {
@@ -124,7 +116,7 @@ public class GriefBot {
 	}
 	
 	public String getVersion() {
-		return VERSION;
+		return version;
 	}
 	
 	public void setGriefPicture(String griefPicture) {
@@ -149,5 +141,13 @@ public class GriefBot {
 	
 	public InetSocketAddress getWebSocketServer() {
 		return webServerSocket;
+	}
+	
+	public String getSeed() {
+		return seed;
+	}
+	
+	public void setSeed(String seed) {
+		this.seed = seed;
 	}
 }

@@ -28,11 +28,11 @@ public class WebServer {
 			try {
 				webServerIndex.index(this.httpServer);
 			} catch (IOException e) {
-				throw new RuntimeException(e);
+				e.printStackTrace();
 			}
 		});
 		this.httpServer.start();
-		GriefBotLogger.log("[Web Server] Running on http://" + ConnectionUtils.lookupLocalAddress() + ":" + host.getPort(), GriefBotLoggerLevel.INFO);
+		GriefBotLogger.log("[Web Server] Running on " + ConnectionUtils.lookupLocalAddress() + ":" + host.getPort(), GriefBotLoggerLevel.INFO);
 	}
 
 	public final HttpServer getHttpServer() {

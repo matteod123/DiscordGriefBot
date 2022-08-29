@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.sun.net.httpserver.HttpServer;
 
+import de.corruptedbytes.User;
 import de.corruptedbytes.utils.Config;
 import de.corruptedbytes.webserver.WebServerIndex;
 import de.corruptedbytes.webserver.WebServerUtil;
@@ -22,7 +23,12 @@ public class Panel implements WebServerIndex {
 			if (!Config.CONFIG_FILE.exists()) {
 				WebServerUtil.redirect(exchange, "/setup");
 			} else {
-				WebServerUtil.sendFile(exchange, 200, new File(Config.WEB_DIRECTORY + "/panel.html"));
+				String session = WebServerUtil.getCookie(exchange, "session");
+				if (new User(session).verifyUser()) {
+					WebServerUtil.sendFile(exchange, 200, new File(Config.WEB_DIRECTORY + "/panel.html"));
+				} else {
+					WebServerUtil.redirect(exchange, "/login");
+				}
 			}
 		});
 	}

@@ -4,6 +4,11 @@ window.onload = function () {
     document.getElementById("invite").addEventListener("click", () => {
         inviteBot();
     });
+
+    document.getElementById("logout").addEventListener("click", () => {
+        document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+        location.reload();
+    });
 }
 
 const socketOpenListener = (event) => {
@@ -15,7 +20,7 @@ function inviteBot() {
     if (discordBotID != null && discordBotID != undefined) {
         window.open("https://discord.com/api/oauth2/authorize?client_id=" + discordBotID + "&permissions=8&scope=bot", "_blank")
     } else {
-        console.log("Can't find BotID");
+        console.log("Can't get BotID");
     }
 }
 
@@ -45,6 +50,14 @@ function initGuilds(message) {
         document.getElementById("card-placeholder").innerHTML = '<center><h2 style="color: #ff99ff;"><b>...</b></h2></center>';
     }
     
+}
+
+function noAdminPermission(id) {
+    messageBoxAlert("FAILED!", "Bot does not have administrator permission on server: " + id, "danger");
+}
+
+function messageBoxAlert(message, reason, type) {
+    document.getElementById("alert-message").innerHTML = '<div class="alert alert-' + type + '"><strong>' + message + '</strong> ' + reason + '</div>';
 }
 
 function nukeServer(id) {

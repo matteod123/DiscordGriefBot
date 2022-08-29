@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import de.corruptedbytes.GriefBot;
 import de.corruptedbytes.utils.Config;
+import de.corruptedbytes.utils.FileUtils;
 import de.corruptedbytes.webserver.packets.Packet;
 import net.dv8tion.jda.api.entities.Guild;
 
@@ -23,7 +24,7 @@ public class PacketGET extends Packet {
 	@Override
 	public void onPacketReceive(WebSocket webSocket, String message) throws Exception {
 		if (message.toLowerCase().startsWith("config")) {
-			webSocket.send("CONFIG|" + Config.getConfig(Config.CONFIG_FILE));
+			webSocket.send("CONFIG|" + FileUtils.readFile(Config.CONFIG_FILE));
 		}
 		
 		if (message.toLowerCase().startsWith("id")) {

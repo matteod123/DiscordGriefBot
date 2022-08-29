@@ -1,3 +1,4 @@
+<!-- Copyright © CorruptedBytes - 2022 -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE-edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.png">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/sidenav.css">
@@ -40,7 +42,10 @@
     <nav id="sidebar" class="active">
         <ul class="list-unstyled components mb-5">
             <li>
-                <a href="/panel"> Panel</a>
+                <a href="/dashboard"> Panel</a>
+            </li>
+            <li>
+                <a href="/chat"> Chat</a>
             </li>
             <li>
                 <a href="/settings"> Settings</a>
@@ -79,13 +84,7 @@
         <br /><br /><br />
 
         <table>
-            <tr>
-                <td>
-                    <p>Grief Command</p>
-                    <label><input type="text" name="griefCommand" id="griefCommand" placeholder="%start"
-                            spellcheck="false" autocomplete="off" required /></label>
-                </td>
-                
+            <tr>                
                 <td>
                     <p>Grief Message</p>
                     <label><input type="text" name="griefMessage" id="griefMessage" placeholder="Fucked-by-%s"

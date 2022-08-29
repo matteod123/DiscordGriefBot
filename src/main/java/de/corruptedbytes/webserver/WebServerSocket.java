@@ -36,7 +36,7 @@ public class WebServerSocket extends WebSocketServer {
 
 	@Override
 	public void onError(WebSocket conn, Exception ex) {
-		ex.printStackTrace();
+		GriefBotLogger.log("[Bootstrap / WebSocketServer] " + ex.getMessage(), GriefBotLoggerLevel.ERROR);
 	}
 
 	@Override

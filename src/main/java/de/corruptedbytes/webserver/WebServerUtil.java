@@ -1,10 +1,12 @@
 package de.corruptedbytes.webserver;
 
 import com.sun.net.httpserver.HttpExchange;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.util.List;
 
 public class WebServerUtil {
 	
@@ -24,5 +26,17 @@ public class WebServerUtil {
 		exchange.getResponseHeaders().add("Location", location);
 		exchange.sendResponseHeaders(302, 0L);
 		exchange.close();
+	}
+	
+	public static String getCookie(HttpExchange exchange, String key) {
+		if (exchange.getRequestHeaders().get("Cookie") != null) {
+			List<String> cookies = exchange.getRequestHeaders().get("Cookie");
+			for (String cookie : cookies) {
+				if (cookie.startsWith(key)) {
+					return cookie.split("\\=")[1];
+				}
+			}
+		}
+		return "";
 	}
 }
